@@ -2,10 +2,11 @@
 
 import math as m
 import pandas as pd
+import numpy as np
 
 # calculate the population standard deviation
 def stdev_p(data):
-    m1 = sum(data) / len(data)
+    m1 = data.mean()
     s = 0
     for item in data:
         s = s + (item-m1)*(item-m1)
@@ -14,7 +15,7 @@ def stdev_p(data):
 
 # calculate the sample standard deviation
 def stdev_s(data):
-    m1 = sum(data) / len(data)
+    m1 = data.mean()
     s = 0
     for item in data:
         s = s + (item-m1)*(item-m1)
