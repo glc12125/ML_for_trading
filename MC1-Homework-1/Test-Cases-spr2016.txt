@@ -1,0 +1,51 @@
+stdev_test_cases = [
+
+    StdevTestCase(
+
+        description="Wiki example",
+
+        data=[2.0, 4.0, 4.0, 4.0, 5.0, 5.0, 7.0, 9.0],
+
+        population_stdev=2.0,
+
+        sample_stdev=2.138089935299395
+
+    ),
+
+    StdevTestCase(
+
+        description="8 Floats in the range 0:10",
+
+        data=[ 1.58635658,  6.79010528,  6.9004797 ,  9.20231408,  7.80411269, 5.87220658,  3.40556661,  9.35210235],
+
+        population_stdev=2.5334795376613175,
+
+        sample_stdev=2.708403550380314
+
+    ),
+
+    StdevTestCase(
+
+        description="10 Floats in the range 0:1",
+
+        data=[ 0.16612778,  0.54036539,  0.91615542,  0.01641763,  0.83539421, 0.68843203,  0.89702072,  0.61392293,  0.46913106,  0.73372572],
+
+        population_stdev=0.28591233153806234,
+
+        sample_stdev=0.30137805959648994
+
+    ),
+
+    StdevTestCase(
+
+        description="4 Floats in the range -100:100",
+
+        data=[ 45.53238657,  89.526668  , -71.70302742,  59.66191417],
+
+        population_stdev=61.24895342492838,
+
+        sample_stdev=70.7241994949305
+
+    )
+
+]
