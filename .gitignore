@@ -1,3 +1,6 @@
 ml4t
-data
-
+data/
+.csv
+.ipynb_checkpoints
+.swp
+.DS_Store

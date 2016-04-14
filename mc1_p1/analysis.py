@@ -6,6 +6,26 @@ import numpy as np
 import datetime as dt
 from util import get_data, plot_data
 
+
+def compute_daily_returns(df):
+    """Compute and return the daily return values."""
+    daily_returns = df.copy()
+    daily_returns[1:] = (df[1:] / df[:-1].values) - 1
+    return daily_returns[1:]
+
+def compute_portfolio_stats(prices, allocs=[0.1,0.2,0.3,0.4], rfr = 0.0, sf = 252.0):
+    normed = prices / prices.ix[0]
+    alloced = normed * allocs
+    port_vals = alloced.sum(axis = 1)
+    daily_rets = compute_daily_returns(port_vals)
+    cr = port_vals[-1] / port_vals[0] - 1
+    adr = daily_rets.mean()
+    sddr = daily_rets.std()
+    sr = (daily_rets - rfr).mean() / (daily_rets).std() * np.sqrt(sf)
+    
+    return cr, adr, sddr, sr
+
+
 # This is the function that will be tested by the autograder
 # The student must update this code to properly implement the functionality
 def assess_portfolio(sd = dt.datetime(2008,1,1), ed = dt.datetime(2009,1,1), \
@@ -21,19 +41,26 @@ def assess_portfolio(sd = dt.datetime(2008,1,1), ed = dt.datetime(2009,1,1), \
     prices_SPY = prices_all['SPY']  # only SPY, for comparison later
 
     # Get daily portfolio value
-    port_val = prices_SPY # add code here to compute daily portfolio values
+    prices_SPY = prices_SPY / prices_SPY[0]    
+    normed = prices / prices.ix[0]
+    alloced = normed * allocs
+    pos_vals = alloced * sv
+    port_vals = pos_vals.sum(axis = 1)
 
     # Get portfolio statistics (note: std_daily_ret = volatility)
-    cr, adr, sddr, sr = [0.25, 0.001, 0.0005, 2.1] # add code here to compute stats
+    # cr, adr, sddr, sr = [0.25, 0.001, 0.0005, 2.1] # add code here to compute stats
+    cr, adr, sddr, sr = compute_portfolio_stats(prices, allocs, rfr, sf)
+
 
     # Compare daily portfolio value with SPY using a normalized plot
     if gen_plot:
         # add code to plot here
         df_temp = pd.concat([port_val, prices_SPY], keys=['Portfolio', 'SPY'], axis=1)
+        plot_data(df_temp)
         pass
 
     # Add code here to properly compute end value
-    ev = sv
+    ev = sv * (1 + cr)
 
     return cr, adr, sddr, sr, ev
 
